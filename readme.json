@@ -1,0 +1,42 @@
+{
+  "PROJECT": {
+    "NAME": "Web AR Cannon using AFRAME.js",
+    "ICON": {
+      "IMAGE": "512.png",
+      "ALT": "",
+      "WIDTH": 200,
+      "HEIGHT": 200
+    },
+    "URL": "",
+    "URL_TITLE": "Web AR Cannon using AFRAME.js"
+  },
+  "AUTHOR": {
+    "NAME": "George Kontus",
+    "URL": "https://georgekontus.com/",
+    "ALT": "georgekontus",
+    "DATE": "2020",
+    "SECTION": {
+      "TITLE": "Author",
+      "SHOW": true
+    }
+  },
+  "DESCRIPTION": "Web AR cannon using AFrame.js and other javascrpt libraries",
+  "BADGES": {
+    "0": {
+      "IMAGE": "https://res.ppizarror.com/badges/author.svg",
+      "HREF": "https://georgekontus.com/",
+      "ALT": "@georgekontus"
+    },
+    "1": {
+      "IMAGE": "https://img.shields.io/cran/l/AR",
+      "HREF": "https://opensource.org/licenses/MIT/",
+      "ALT": "MIT License"
+    },
+    "2": {
+      "IMAGE": "https://img.shields.io/github/repo-size/GorgonUK/web-ar-cannon",
+      "HREF": "https://georgekontus.com/",
+      "ALT": "Repo size"
+    }
+  },
+  "CONTENT": "readme.content.md"
+}
