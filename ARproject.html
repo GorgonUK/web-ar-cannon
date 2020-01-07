@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en" data-is-mobile="true" data-is-android="true" data-is-ios="true" data-supports-touch="true" data-supports-vr="true" data-supports-vr-legacy="true">
+
+<head>
+
+
+
+
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <meta name="description" content="Augmented Reality: Interaction Between two points using Web Technologies."/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+  <title>AR Cannon and target</title>
+  
+  
+ 
+	
+	
+	
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.js"></script>
+  <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+  <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
+  <script src="//cdn.rawgit.com/donmccurdy/aframe-physics-system/v3.2.0/dist/aframe-physics-system.min.js"></script>
+  <script src="/js/cannon.js"></script>
+  <script src="/js/compat.js"></script>
+  <script src="/js/CannonShoot.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/adapterjs/0.15.4/adapter.min.js"></script>
+  <script>/*Important*/ console.log(adapter.browserDetails.browser);</script>
+  <script>
+THREEx.ArToolkitContext.baseURL = 'https://rawgit.com/jeromeetienne/ar.js/master/three.js/'
+</script>
+<!--- Disable Right click
+   ================================================== -->
+
+	<script language="javascript">
+	document.addEventListener("contextmenu", function(e){
+	   e.preventDefault();
+	}, false);
+	</script>
+
+    
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+  <!-- Bootstrap core CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="css/mdb.min.css" rel="stylesheet">
+ 
+
+<link href="https://aframe.io/css/index.css" rel="stylesheet">
+
+  <style type="text/css">
+  
+  
+    html,
+    body,
+    header,
+    .view {
+      height: 100%;
+    }
+
+    @media (max-width: 559px) {
+
+      html,
+      body,
+      header,
+      
+    }
+
+    @media (min-width: 560px) and (max-width: 740px) {
+
+      html,
+      body,
+      header,
+      .view {
+        height: 700px;
+      }
+    }
+
+    @media (min-width: 800px) and (max-width: 850px) {
+
+      html,
+      body,
+      header,
+      .view {
+        height: 600px;
+      }
+    }
+
+    @media (min-width: 800px) and (max-width: 850px) {
+      .navbar:not(.top-nav-collapse) {
+        background: #1C2331 !important;
+      }
+    }
+	@font-face 
+	{
+	font-family: smileandwave;
+	src: url(/font/smileandwave.ttf);
+	}
+	
+	a.customfont
+	{
+	font-family: smileandwave;
+	}
+  </style>
+  
+  <div class="scrollbar scrollbar-black bordered-black square">
+  <div class="force-overflow"></div>
+</div>
+
+  
+   <!-- Navbar -->
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      <!-- Brand -->
+      <a class="navbar-brand customfont" href="https://georgekontus.com/" style="border-bottom: 0;font-size: 30px;
+">
+        <strong>George Kontus</strong>
+      </a>
+
+      <!-- Collapse -->
+     
+
+      <!-- Links -->
+      
+
+        
+
+        <!-- Right -->
+        <ul class="navbar-nav nav-flex-icons">
+         <li class="nav-item">
+		  
+		  
+		  
+            <a class="nav-link" style="
+    margin-right: 10px; border-bottom:0;
+" 
+              
+			  >
+              Camera Required
+            </a>
+          </li>
+		  
+		  
+		  
+		 <li class="nav-item">
+            <a class="nav-link border border-light rounded " 
+              href="">
+			  
+              How to Use
+            </a>
+          </li>
+		 &nbsp;&nbsp;&nbsp;
+          <li class="nav-item">
+		  
+            <a class="nav-link border border-light rounded" href=""
+              >
+			  
+              Feedback
+            </a>
+          </li>
+        </ul>
+
+      
+
+    </div>
+  </nav>
+  
+  
+  
+  
+  <!-- Navbar -->
+ 
+ 
+ 
+</head>
+
+<body>
+
+
+
+  <!-- Full Page Intro 1 -->
+  <div class="view" id="project" >
+
+	
+    <!-- Mask & flexbox options-->
+    <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+      <!-- Content -->
+	  
+<a-scene class="view" vr-mode-ui="enabled: false" physics="debug: true" embedded arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;" cannon-ball>
+<script src="/js/para.js"></script>
+    
+	<!-- Setup Assets -->
+	
+	<a-assets>
+      <a-asset-item id="cannon" src="/assets/Cannon.gltf" preload="auto"></a-asset-item>
+      <a-asset-item id="target" src="/assets/target.gltf" preload="auto"></a-asset-item>
+    </a-assets>
+
+	<!-- Build Markers -->
+
+    <a-marker id="cannonMarker" type='pattern' url='pattern/pattern-hiro.patt'>
+	
+        <a-gltf-model src="#cannon" position="-3 2 2" scale="3.13 4.82 5.54" gltf-model="/assets/Cannon.gltf" rotation="0 -90 0">
+        </a-gltf-model>
+		
+    </a-marker>
+
+    <a-marker id="targetmarker" type='pattern' url='pattern/pattern-kanji.patt'>
+      
+        <a-gltf-model src="#target" position="0 0.5 0" scale="0.3 0.3 0.3">
+        </a-gltf-model>
+      
+    </a-marker>
+
+	<!-- Setup Button -->
+	
+    <div class="example__controls">
+
+      <a id="exampleInspector" class="btn" id="fire" rel="nofollow" title="Shoot" style="margin-top: 62.500em !important; margin-right: 10em;">Shoot</a>
+
+    </div>
+
+  </a-scene>      
+
+      <!-- Content -->
+
+    </div>
+    <!-- Mask & flexbox options-->
+
+  </div>
+  <!-- Full Page Intro 1 -->
+  
+  
+         <!-- Footer -->
+<footer class="page-footer font-small special-color-dark pt-4">
+
+    <!-- Footer Links -->
+    <div class="container text-center text-md-left" style="
+    margin-bottom: 15px;
+">
+
+      <!-- Grid row -->
+      <div class="row">
+
+        <!-- Grid column -->
+        <div class="col-md-3 mx-auto" style="
+    margin-top: 15px;
+">
+
+          <!-- Links -->
+          <h5 class="font-weight-bold text-uppercase mb-3">Education</h5>
+
+          <ul class="list-unstyled">
+            <li>
+              <a href="https://www.bangor.ac.uk/">Bangor University</a>
+            </li>
+            <li>
+              <a href="https://www.gllm.ac.uk/">Gllm</a>
+            </li>
+            
+          </ul>
+
+        </div>
+        <!-- Grid column -->
+
+        <hr class="clearfix w-100 d-md-none">
+
+        <!-- Grid column -->
+        <div class="col-md-3 mx-auto">
+
+          <!-- Links -->
+          <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Technologies</h5>
+
+          <ul class="list-unstyled">
+            <li>
+              <a href="https://www.w3schools.com/html/">HTML</a>
+            </li>
+            <li>
+              <a href="https://www.w3schools.com/css/">CSS</a>
+            </li>
+            <li>
+              <a href="https://www.javascript.com/">JavaScript</a>
+            </li>
+            <li>
+              <a href="http://www.php.net/">PHP</a>
+            </li>
+          </ul>
+
+        </div>
+        <!-- Grid column -->
+
+        <hr class="clearfix w-100 d-md-none">
+
+        <!-- Grid column -->
+        <div class="col-md-3 mx-auto">
+
+          <!-- Links -->
+          <h5 class="font-weight-bold text-uppercase mt-3 mb-4">JavaScript libraries</h5>
+
+          <ul class="list-unstyled">
+            <li>
+              <a href="https://aframe.com/">A-Frame</a>
+            </li>
+            <li>
+              <a href="https://www.cannonjs.org/">Cannon.js</a>
+            </li>
+            <li>
+              <a href="https://threejs.org/">three.js</a>
+            </li>
+            <li>
+              <a href="https://github.com/wellcaffeinated/PhysicsJS">PhysicsJS</a>
+            </li>
+          </ul>
+
+        </div>
+        <!-- Grid column -->
+
+        <hr class="clearfix w-100 d-md-none">
+
+        <!-- Grid column -->
+        <div class="col-md-3 mx-auto">
+
+          <!-- Links -->
+          <h5 class="font-weight-bold text-uppercase mt-3 mb-4">CSS libraries</h5>
+
+          <ul class="list-unstyled">
+            <li>
+              <a href="https://purecss.io/">Pure CSS</a>
+            </li>
+            <li>
+              <a href="https://material.io/tools/icons/?style=baseline">Google Material Design</a>
+            </li>
+            <li>
+              <a href="https://getbootstrap.com/">Bootstrap core</a>
+            </li>
+            <li>
+              <a href="https://mdbootstrap.com/">Material Design Bootstrap</a>
+            </li>
+          </ul>
+
+        </div>
+        <!-- Grid column -->
+
+      </div>
+      <!-- Grid row -->
+
+    </div>
+    <!-- Footer Links -->
+
+	 <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">&copy; 2020 Copyright:
+      <a> George Kontus</a>
+    </div>
+    <!-- Copyright -->
+ </footer>
+  <script>
+  
+  
+  
+
+
+
+  $('#HowToUse').click(function(e) {
+  
+    e.preventDefault();
+    $.ajax ({
+      url: $(this).attr('href') + '#project',
+      success : function(data){
+        // Changed data.html to only data
+        $('modal').html(data).foundation('open');
+        console.log(data);
+      },
+      error : function(xhr, status){
+        console.log(status);
+      }
+    });
+  });
+
+  </script>
+	
+
+
+</body>
+
+</html>
